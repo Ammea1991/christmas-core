@@ -1,0 +1,26 @@
+version: '3.5'
+
+services:
+    christmas-core:
+        build:
+            context: ../..
+            dockerfile: Dockerfile
+            args:
+                BASICAUTH_USR_PWD: ${BASICAUTH_USR_PWD}
+                DB_URI: ${DB_URI}
+        container_name: christmas-core
+        ports:
+            - '3009:3009'
+        volumes:
+            - ../..:/app
+            - /app/node_modules
+        environment:
+            - NODE_ENV=dev
+            - BASICAUTH_USR_PWD=${BASICAUTH_USR_PWD}
+            - DB_URI=${DB_URI}
+            - API_URL=/
+            - PORT=3009
+            - SITE_URL=http://localhost:3003
+            - SITE_URL_BE=http://localhost:3009
+            - TOKEN_EXPIRATION=25m
+        command: npm run dev
