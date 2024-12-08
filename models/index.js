@@ -5,9 +5,7 @@ const db = {};
 
 db.mongoose = mongoose;
 
-db.user = require("./user.model");
+db.messages = require("./message.model");
 db.session = require("./session.model");
-db.comuni = require("./comuni.model");
-db.frazioni = require("./frazioni.model");
 
 module.exports = db;
