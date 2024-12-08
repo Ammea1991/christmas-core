@@ -1,0 +1,143 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"title": "API Documentation",
+		"description": "Description of your API",
+		"version": "1.0.0"
+	},
+	"host": "localhost:3001",
+	"basePath": "/",
+	"tags": [
+		{
+			"name": "message",
+			"description": "General endpoints"
+		},
+		{
+			"name": "messages",
+			"description": "General endpoints"
+		}
+	],
+	"schemes": ["http"],
+	"paths": {
+		"/": {
+			"get": {
+				"description": "",
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			}
+		},
+		"/api/message/delete": {
+			"post": {
+				"tags": ["message"],
+				"description": "",
+				"parameters": [
+					{
+						"name": "body",
+						"in": "body",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"_id": {
+									"example": "any"
+								}
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				}
+			}
+		},
+		"/api/message/update": {
+			"post": {
+				"tags": ["message"],
+				"description": "",
+				"parameters": [
+					{
+						"name": "body",
+						"in": "body",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"message": {
+									"example": "any"
+								}
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					},
+					"400": {
+						"description": "Bad Request"
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"404": {
+						"description": "Not Found"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+		"/api/messages": {
+			"get": {
+				"tags": ["messages"],
+				"description": "",
+				"responses": {
+					"200": {
+						"description": "OK"
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+		"/api/messages/search": {
+			"get": {
+				"tags": ["messages"],
+				"description": "",
+				"parameters": [
+					{
+						"name": "q",
+						"in": "query",
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		}
+    },
+	"apis": ["./routes/*.js"]
+}

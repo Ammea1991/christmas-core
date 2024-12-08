@@ -22,7 +22,7 @@ RUN npm install
 # Copia il resto del codice sorgente nel container
 COPY . .
 
-# Espone la porta 3009 per il server Node.js
+# Espone la porta 3001 per il server Node.js
 EXPOSE 3001
 
 # Comando di avvio del server Node.js
