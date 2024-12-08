@@ -1,11 +1,11 @@
-require('dotenv').config();
-const express = require('express');
+// require('dotenv').config();
+import express, { json } from 'express';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = 3001;
 
 // Middleware per parsare JSON
-app.use(express.json());
+app.use(json());
 
 // Route di base
 app.get('/', (req, res) => {
