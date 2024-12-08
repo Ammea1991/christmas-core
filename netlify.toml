@@ -1,0 +1,20 @@
+[build]
+  # La directory di output in cui Netlify cercherà il tuo codice
+  publish = "dist" # Modifica in base alla tua cartella di build
+
+  # Il comando che Netlify eseguirà per il build
+  command = "npm run build" # Usa il comando che genera il tuo progetto, ad esempio `npm run build` per React/Vue
+
+[build.environment]
+  # Specifica la versione di Node.js da usare
+  NODE_VERSION = "16" # Modifica se stai utilizzando una versione diversa
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+  force = true
+
+[[functions]]
+  directory = "netlify-functions"
+  # Modifica con il nome della cartella in cui metti le tue funzioni

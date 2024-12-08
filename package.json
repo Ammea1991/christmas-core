@@ -1,0 +1,26 @@
+{
+	"name": "christmas-core",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"start": "node index.js"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"dotenv": "^16.4.7",
+		"express": "^4.21.2",
+		"mongoose": "^8.8.4"
+	},
+	"devDependencies": {
+		"@eslint/js": "^9.16.0",
+		"eslint": "^9.16.0",
+		"eslint-config-prettier": "^9.1.0",
+		"eslint-plugin-prettier": "^5.2.1",
+		"globals": "^15.13.0",
+		"prettier": "^3.4.2",
+		"typescript-eslint": "^8.17.0"
+	}
+}
