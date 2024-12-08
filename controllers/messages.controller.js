@@ -5,6 +5,43 @@ const Message = db.messages;
 
 const bcrypt = require("bcryptjs");
 
+exports.create = async (req, res) => {
+	const body = req.body.message; // Recupera l'oggetto `message` dal body della richiesta
+  
+	try {
+	  // Crea una nuova istanza del modello con i dati ricevuti
+	  const message = new Message({
+		message: {
+		  title: body.title,
+		  text: body.text,
+		},
+	  });
+
+	
+	  // Salva l'istanza nel database
+	  const savedMessage = await message.save();
+	console.log(savedMessage);
+	  // Risposta con successo
+	  res.status(201).send({
+		message: {
+		  title: "Message created",
+		  content: `Message with ID ${savedMessage._id} created successfully!`,
+		},
+		savedMessage,
+	  });
+	} catch (err) {
+	  // Gestione degli errori
+	  console.error(err);
+	  res.status(500).send({
+		message: {
+		  title: "Internal server error",
+		  content: "Error creating message",
+		},
+		error: err.message,
+	  });
+	}
+  };
+
 exports.delete = (req, res) => {
 	Message.deleteOne({ _id: req.body._id }).exec((err, Message) => {
 		if (err) throw err;
@@ -69,25 +106,24 @@ exports.update = async (req, res) => {
 
 exports.getMessage = async (req, res) => {
 	try {
-		const { id } = req.params;
-		console.log(id);
+		const { _id } = req.query;
 
-		const Message = await Message.findOne({ _id: id });
+		const {message} = await Message.findOne({ _id });
 
-		if (!Message) {
-			return res.status(404).send({ message: "Message not found!" });
+		if (!message) {
+			return res.status(404).send({ error: "Message not found!" });
 		}
-		res.status(200).send({ message: "Message found!", data: Message });
+		res.status(200).send({ message });
 	} catch (error) {
-		res.status(500).json({ message: "Server error", error });
+		res.status(500).json({ error: "Server error" });
 	}
 };
 
 exports.getMessages = async (req, res) => {
 	try {
 		const Messages = await Message.find({});
-		console.log(Messages);
-		res.send({ data: Messages });
+
+		res.send({ Messages });
 	} catch (error) {
 		res.status(500).send("Internal Server Error");
 	}
@@ -100,63 +136,5 @@ exports.searchMessages = async (req, res) => {
 		res.send({ data: MessagesFound });
 	} catch (err) {
 		res.status(500).send("Internal Server Error");
-	}
-};
-
-exports.verifyOld = (req, res) => {
-	Message.findOne({
-		email: req.body.email,
-	}).exec((err, Message) => {
-		if (err) {
-			res.status(500).send({ message: err });
-			return;
-		}
-
-		if (!Message) {
-			return res.status(404).send({ message: "Message Not found." });
-		}
-
-		var passwordIsValid = bcrypt.compareSync(req.body.password, Message.password);
-
-		if (!passwordIsValid) {
-			return res.status(401).send({
-				accessToken: null,
-				message: "Invalid Password!",
-			});
-		}
-
-		res.status(200).send({ message: "Password old corretta!" });
-	});
-};
-
-exports.fiscalCode = async (req, res) => {
-	const { name, surname, birth_date, gender, birth_location } = req.body;
-
-	if (!name || !surname || !birth_date || !gender || !birth_location) {
-		return res.status(400).send({ error: "Missing required fields" });
-	}
-
-	try {
-		const codiceFiscale = await calcolaCodiceFiscale(name, surname, birth_date, gender, birth_location);
-
-		res.send({ data: codiceFiscale });
-	} catch (error) {
-		res.status(500).send({ error: error.message });
-	}
-};
-
-exports.saveSettings = async (req, res) => {
-	try {
-		const { settings, _id } = req.body;
-
-		const result = await Message.findOneAndUpdate({ _id: _id }, { $set: { settings: settings } }, { new: true });
-
-		if (!result) {
-			return res.status(404).send({ message: "Message not found!" });
-		}
-
-		res.status(200).send({ message: "Settings saved!", data: result });
-	} catch (error) {
-		res.status(500).json({ message: "Server error", error });
 	}
 };
